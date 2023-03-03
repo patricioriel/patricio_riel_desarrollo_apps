@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Modal, TextInput, Pressable } from 'react-native'
 import React from 'react'
 
-const ModalTask = (addModal, onChangeTask, Task, addTask, closeAddTask) => {
+const ModalTask = ({ addModal, onChangeTask, Task, addTask, closeAddTask }) => {
     return (
         <Modal animationType="fade" transparent={true} visible={addModal}>
             <View style={styles.modalMainView}>

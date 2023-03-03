@@ -12,12 +12,10 @@ import ModalTask from "./src/components/ModalTask";
 export default function App() {
 
   const [items, setItems] = useState([]);
-
   const [addModal, setAddModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
   const [Task, setTask] = useState("");
-
 
   const onChangeTask = (text) => {
     setTask(text);
@@ -30,6 +28,7 @@ export default function App() {
   const addTask = () => {
     setItems((oldArray) => [...oldArray, { id: Date.now(), name: Task, state: false }]);
     setTask("");
+
     setAddModal(!addModal);
   };
 
@@ -62,7 +61,6 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-
       <Header />
       <ItemList items={items} openTask={openTask} />
       <BotonFlotante openNewModal={openNewModal} />
