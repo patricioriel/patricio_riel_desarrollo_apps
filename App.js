@@ -1,13 +1,9 @@
-import React, { useState, } from "react";
-import {StyleSheet, View, ActivityIndicator} from "react-native";
+import React, { useState} from "react";
+import { StyleSheet,SafeAreaView } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
-import BotonFlotante from "./src/components/BotonFlotante";
-import Header from "./src/components/Header";
-import ItemList from "./src/components/ItemList";
-import ModalLista from "./src/components/ModalLista";
-import ModalTask from "./src/components/ModalTask";
+import {Header, BotonFlotante, Isologo, ItemList, ModalLista, ModalTask} from "./src/components"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -77,15 +73,10 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   };
-  
 
   return (
-    <View style={styles.screen} onLayout={onLayoutRootView}>
-      {loading ? (
-        <View style={styles.spinner}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      ) : (
+    <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
+      {loading ? (<Isologo />) : (
         <>
           <Header />
           <ItemList items={items} openTask={openTask} />
@@ -106,9 +97,10 @@ export default function App() {
           />
         </>
       )}
-    </View>
-  )};
-  
+    </SafeAreaView>
+  )
+};
+
 
 const styles = StyleSheet.create({
   screen: {

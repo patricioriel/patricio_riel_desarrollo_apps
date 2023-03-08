@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
+import COLORS from '../constants/COLORS'
 import React from 'react'
 
 const Header = () => {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '100%',
         fontSize: 35,
-        backgroundColor: "#25d1fe",
+        backgroundColor: COLORS.celeste,
         fontFamily: "open-sans-bold"
     },
 })

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Modal, Pressable} from 'react-native'
+import COLORS from '../constants/COLORS'
 import React from 'react'
 
 const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, stateChange}) => {
@@ -11,7 +12,7 @@ const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, sta
           <Pressable
             onPress={onCancelModal}
           >
-            <Text style={[styles.button, styles.close]}>Cerrar</Text>
+            <Text style={[styles.button, styles.close]}>X</Text>
           </Pressable>
         </View>
 
@@ -30,7 +31,7 @@ const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, sta
 
         <View style={styles.modalActions}>
           <Pressable
-            style={[styles.button, styles.buttonCancel, selectedItem.state && styles.disabledButton]}
+            style={[styles.button, styles.buttonReady, selectedItem.state && styles.disabledButton]}
             onPress={() => {
               stateChange(selectedItem.id);
             }}
@@ -107,11 +108,11 @@ const styles = StyleSheet.create({
     padding: 10,
     marginHorizontal: 10,
   },
-  buttonCancel: {
-    backgroundColor: "#2196F3",
+  buttonReady: {
+    backgroundColor: COLORS.verde,
   },
   buttonDelete: {
-    backgroundColor: "#f44336",
+    backgroundColor: COLORS.rojo,
   },
   buttonClose: {
     position: "absolute",

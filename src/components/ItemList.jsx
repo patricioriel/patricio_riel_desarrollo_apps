@@ -1,4 +1,5 @@
 import { StyleSheet, Text, FlatList, Pressable } from 'react-native'
+import COLORS from '../constants/COLORS'
 import React from 'react'
 
 const ItemList = ({ items, openTask }) => {
@@ -8,13 +9,22 @@ const ItemList = ({ items, openTask }) => {
             data={items}
             renderItem={(itemData) => (
                 <Pressable
-                    style={styles.itemContainer}
+                    style={[
+                        styles.itemContainer,
+                        itemData.item.state ? styles.itemContainerResuelto : styles.itemContainerPendiente,
+                    ]}
                     onPress={() => {
                         openTask(itemData.item);
                     }}
                 >
                     <Text style={styles.itemName}>{itemData.item.name}</Text>
-                    <Text style={itemData.item.state ? styles.itemtarea : styles.itemtareaing}>{itemData.item.state ? "Resuelto" : "Pendiente"}</Text>
+                    <Text
+                        style={[
+                            itemData.item.state ? styles.itemtareaResuelto : styles.itemtareaPendiente,
+                        ]}
+                    >
+                        {itemData.item.state ? 'Resuelto ✔️' : 'Pendiente ⏱️'}
+                    </Text>
                 </Pressable>
             )}
             keyExtractor={(item) => item.id.toString()}
@@ -27,24 +37,32 @@ export default ItemList
 const styles = StyleSheet.create({
     flatList: {
         borderTopColor: "#ccc",
-        borderTopWidth: 1
+        borderTopWidth: 1,
+        marginTop:10
     },
     itemContainer: {
         padding: 10,
         marginTop: 1,
         borderBottomColor: "#ccc",
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
     },
     itemName: {
         fontSize: 20,
         fontWeight: "bold"
     },
-    itemtarea: {
-        fontSize: 15,
-        color: "#1ab35e"
+    itemtareaResuelto: {
+        fontSize: 17,
+        color: "green",
     },
-    itemtareaing: {
-        fontSize: 15,
-        color: "#2196f3"
+    itemtareaPendiente: {
+        fontSize: 17,
+        color: "red",
+        fontFamily: "open-sans",
+    },
+    itemContainerResuelto: {
+        backgroundColor: COLORS.fondoverde,
+    },
+    itemContainerPendiente: {
+        backgroundColor: COLORS.fondonaranja,
     },
 })

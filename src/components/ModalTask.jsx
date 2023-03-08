@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Modal, TextInput, Pressable } from 'react-native'
+import COLORS from '../constants/COLORS'
 import React from 'react'
 
 const ModalTask = ({ addModal, onChangeTask, Task, addTask, closeAddTask }) => {
@@ -17,7 +18,7 @@ const ModalTask = ({ addModal, onChangeTask, Task, addTask, closeAddTask }) => {
                     </View>
                     <View style={styles.modalActions}>
                         <Pressable
-                            style={[styles.button, styles.buttonCancel]}
+                            style={[styles.button, styles.buttonAdd]}
                             onPress={() => {
                                 addTask();
                             }}
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         width: 200,
         borderBottomColor: "black",
         borderBottomWidth: 1,
-        marginTop: 10
+        marginTop: 10,
     },
 
     item: {
@@ -66,11 +67,11 @@ const styles = StyleSheet.create({
         padding: 10,
         marginHorizontal: 10,
     },
-    buttonCancel: {
-        backgroundColor: "#2196F3",
+    buttonAdd: {
+        backgroundColor: COLORS.verde
     },
     buttonDelete: {
-        backgroundColor: "#f44336",
+        backgroundColor: COLORS.rojo,
     },
     buttonClose: {
         position: "absolute",
@@ -81,8 +82,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
     },
     modalMainView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+            margin: 20,
+            justifyContent:"center",
+            backgroundColor: "white",
+            borderRadius: 20,
+            padding: 35,
+            alignItems: "center",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
     },
 })
