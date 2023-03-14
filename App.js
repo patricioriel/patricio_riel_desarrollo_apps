@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
 import {Header, BotonFlotante, Isologo, ItemList, ModalLista, ModalTask} from "./src/components"
+import Navigators from "./src/navigators/Navigators";
 
 SplashScreen.preventAutoHideAsync()
 
@@ -95,6 +96,7 @@ export default function App() {
             addTask={addTask}
             closeAddTask={closeAddTask}
           />
+          <Navigators/>
         </>
       )}
     </SafeAreaView>

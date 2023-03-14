@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    right: 30,
-    bottom: 30,
+    right: 20,
+    bottom: 75,
   },
   imgbtnflotante: {
     resizeMode: "contain",
