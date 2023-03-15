@@ -1,14 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { BotonFlotante, Header, ItemList } from '../components'
+import { BotonFlotante, Header, ItemList, ModalLista } from '../components'
 
 
-const HomeScreen = ({items, openTask, openNewModal}) => {
+const HomeScreen = ({items, openTask, openNewModal, onCancelModal, onDeleteTask, modalVisible, selectedItem, stateChange}) => {
   return (
     <View style={styles.screen}>
        <Header/>
        <ItemList items={items} openTask={openTask} />
        <BotonFlotante openNewModal={openNewModal} />
+       <ModalLista
+            onCancelModal={onCancelModal}
+            onDeleteTask={onDeleteTask}
+            modalVisible={modalVisible}
+            selectedItem={selectedItem}
+            stateChange={stateChange}
+          />
     </View>
   )
 }

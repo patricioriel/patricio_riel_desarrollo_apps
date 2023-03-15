@@ -14,11 +14,11 @@ const Tab = createMaterialBottomTabNavigator();
 const Navigators = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="UserDetails" component={UserScreen} />
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="UserDetails" component={UserScreen} />
 
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }

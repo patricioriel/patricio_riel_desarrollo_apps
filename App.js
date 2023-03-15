@@ -40,7 +40,6 @@ export default function App() {
   const addTask = () => {
     setItems((oldArray) => [...oldArray, { id: Date.now(), name: Task, state: false }]);
     setTask("");
-
     setAddModal(!addModal);
   };
 
@@ -96,6 +95,7 @@ export default function App() {
             addTask={addTask}
             closeAddTask={closeAddTask}
           />
+          
           <Navigators/>
         </>
       )}
