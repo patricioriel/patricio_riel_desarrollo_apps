@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     flatList: {
         borderTopColor: "#ccc",
         borderTopWidth: 1,
-        marginTop:10
+        marginTop:10,
+        width:"100%"
     },
     itemContainer: {
         padding: 10,
