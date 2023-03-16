@@ -1,11 +1,11 @@
 import { StyleSheet, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
-const BotonFlotante = ({ openNewModal }) => {
+const BotonFlotante = ({ setAddModal }) => {
   return (
     <TouchableOpacity
       style={styles.btnflotante}
-      onPress={openNewModal}
+      onPress={() => setAddModal(true)}
     >
       <Image
         style={styles.imgbtnflotante}
