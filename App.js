@@ -3,7 +3,7 @@ import { StyleSheet,SafeAreaView } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
-import {Header, BotonFlotante, Isologo, ItemList, ModalLista, ModalTask} from "./src/components"
+import { Isologo} from "./src/components"
 import Navigators from "./src/navigators/Navigators";
 
 SplashScreen.preventAutoHideAsync()
@@ -30,28 +30,6 @@ export default function App() {
   return (
     <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
       {loading ? (<Isologo />) : (
-<<<<<<< HEAD
-=======
-        <>
-          {/*<Header />
-          <ItemList items={items} openTask={openTask} />
-          <BotonFlotante openNewModal={openNewModal} />
-          <ModalLista
-            onCancelModal={onCancelModal}
-            onDeleteTask={onDeleteTask}
-            modalVisible={modalVisible}
-            selectedItem={selectedItem}
-            stateChange={stateChange}
-          />
-          <ModalTask
-            addModal={addModal}
-            onChangeTask={onChangeTask}
-            Task={Task}
-            addTask={addTask}
-            closeAddTask={closeAddTask}
-      />*/}
-          
->>>>>>> 1d19827cbb7eb2e9f018b34ff9eb5015e6a72548
           <Navigators/>
       )}
     </SafeAreaView>
