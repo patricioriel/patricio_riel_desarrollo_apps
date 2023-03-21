@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         borderTopColor: "#ccc",
         borderTopWidth: 1,
         marginTop:10,
-        width:"100%"
+        width:"100%",
     },
     itemContainer: {
         padding: 10,

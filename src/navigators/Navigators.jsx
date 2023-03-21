@@ -1,26 +1,64 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import UserScreen from '../screens/UserScreen'
 import HomeScreen from '../screens/HomeScreen'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Entypo } from '@expo/vector-icons';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import COLORS from '../constants/COLORS'
 
-
-const Stack = createNativeStackNavigator();
-
-const Tab = createMaterialBottomTabNavigator();
+const BottomTabs = createBottomTabNavigator()
 
 const Navigators = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="UserDetails" component={UserScreen} />
-
-      </Stack.Navigator>
+      <BottomTabs.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel:false,
+          tabBarStyle: styles.tabBar
+        }}>
+        <BottomTabs.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.tabItemContainer}>
+                <Entypo name="home" size={28} color={focused ? COLORS.celeste : 'grey'} />
+                <Text style={[styles.tabItemText, { color: focused ? COLORS.celeste : 'grey' }]}>Home</Text>
+              </View>
+            )
+          }} />
+        <BottomTabs.Screen
+          name="Mi perfil"
+          component={UserScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.tabItemContainer}>
+                <Entypo name="user" size={28} color={focused ? COLORS.celeste : 'grey'} />
+                <Text style={[styles.tabItemText, { color: focused ? COLORS.celeste : 'grey' }]}>Mi perfil</Text>
+              </View>
+            )
+          }} />
+      </BottomTabs.Navigator>
     </NavigationContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: 60
+  },
+  tabItemContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  tabItemText: {
+    fontSize: 12,
+    marginTop: 5
+  }
+})
 
 export default Navigators
