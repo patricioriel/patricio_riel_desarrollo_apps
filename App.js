@@ -5,6 +5,8 @@ import { useFonts } from 'expo-font';
 
 import { Isologo} from "./src/components"
 import Navigators from "./src/navigators/Navigators";
+import { Provider } from "react-native-paper";
+import store from "./src/store";
 
 SplashScreen.preventAutoHideAsync()
 
@@ -28,11 +30,13 @@ export default function App() {
   };
 
   return (
+    <Provider store= {store} >
     <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
       {loading ? (<Isologo />) : (
           <Navigators/>
       )}
     </SafeAreaView>
+     </Provider>
   )
 };
 

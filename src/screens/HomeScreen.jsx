@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { BotonFlotante, Header, ItemList, ModalLista, ModalTask } from '../components';
 import { useNavigation } from '@react-navigation/native';
+import { AGREGAR_ITEM, ELIMINAR_ITEM, CAMBIAR_ESTADO } from '../store/actions/tareas.action';
+import { useDispatch } from 'react-redux';
 
 const HomeScreen = () => {
 
@@ -11,6 +13,8 @@ const HomeScreen = () => {
   const [selectedItem, setSelectedItem] = useState({});
   const [Task, setTask] = useState("");
   const [addModal, setAddModal] = useState(false);
+
+  const dispatch = useDispatch;
 
   const onChangeTask = (text) => {
     setTask(text);
