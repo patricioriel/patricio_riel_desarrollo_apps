@@ -1,11 +1,11 @@
 import React, { useState} from "react";
-import { StyleSheet,SafeAreaView } from "react-native";
+import { StyleSheet,SafeAreaView, Platform, StatusBar } from "react-native";
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
 import { Isologo} from "./src/components"
 import Navigators from "./src/navigators/Navigators";
-import { Provider } from "react-native-paper";
+import { Provider} from "react-redux";
 import store from "./src/store";
 
 SplashScreen.preventAutoHideAsync()
@@ -43,10 +43,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   screen: {
-    fontFamily: "open-sans",
-    paddingTop: 35,
-    padding: 3,
     flex: 1,
-    backgroundColor: "#fff"
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
 });

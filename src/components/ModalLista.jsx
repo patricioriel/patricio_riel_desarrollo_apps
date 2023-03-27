@@ -1,8 +1,14 @@
 import { StyleSheet, Text, View, Modal, Pressable} from 'react-native'
 import COLORS from '../constants/COLORS'
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { cambiarEstado, eliminarItem } from '../store/actions/tareas.action'
 
-const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, stateChange}) => {
+const ModalLista = ({onCancelModal, modalVisible, setModalVisible}) => {
+  
+  const selected = useSelector((state)=> state.rootTask.selected)
+  const dispatch = useDispatch();
+
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
     <View style={styles.modalMainView}>
@@ -16,7 +22,7 @@ const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, sta
           </Pressable>
         </View>
 
-        <Text style={styles.modalTitle}>{selectedItem.name}</Text>
+        <Text style={styles.modalTitle}>{selected?.name}</Text>
   
         <View style={styles.modalBody}>
           <Text style={styles.modalText}>
@@ -25,24 +31,26 @@ const ModalLista = ({onCancelModal, onDeleteTask, modalVisible,selectedItem, sta
           </Text>
           <Text style={styles.modalText}>
             <Text>Estado: </Text>
-            <Text style={styles.modalBoldText}>{selectedItem.state ? "Resuelto" : "Pendiente"}</Text>
+            <Text style={styles.modalBoldText}>{selected?.state ? "Resuelto" : "Pendiente"}</Text>
           </Text>
         </View>
 
         <View style={styles.modalActions}>
           <Pressable
-            style={[styles.button, styles.buttonReady, selectedItem.state && styles.disabledButton]}
+            style={[styles.button, styles.buttonReady, selected?.state && styles.disabledButton]}
             onPress={() => {
-              stateChange(selectedItem.id);
+              dispatch(cambiarEstado(selected))
+              setModalVisible(!modalVisible)
             }}
-            disabled={selectedItem.state}
+            disabled={selected?.state}
           >
-            <Text style={[styles.textStyle, selectedItem.state && styles.disabledButton]}>Marcar como "Resuelto"</Text>
+            <Text style={[styles.textStyle, selected?.state && styles.disabledButton]}>Marcar como "Resuelto"</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonDelete]}
             onPress={() => {
-              onDeleteTask(selectedItem.id);
+              dispatch(eliminarItem(selected))
+              setModalVisible(!modalVisible)
             }}
           >
             <Text style={styles.textStyle}>Eliminar</Text>

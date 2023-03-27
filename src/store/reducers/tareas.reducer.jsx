@@ -1,37 +1,45 @@
-import { AGREGAR_ITEM, ELIMINAR_ITEM, CAMBIAR_ESTADO } from '../actions/tareas.action';
+import { AGREGAR_ITEM, ELIMINAR_ITEM, CAMBIAR_ESTADO, SELECT_ITEM } from '../actions/tareas.action';
 
 const initialState = {
-  items: []
+  items: [],
+  selected: null
 };
 
-const reducer = (state = initialState, action) => {
+const TaskReducer = (state = initialState, action) => {
   switch (action.type) {
     case AGREGAR_ITEM:
       return {
         ...state,
         items: [...state.items, action.payload]
-      };
-    case ELIMINAR_ITEM:
-      return {
-        ...state,
-        items: state.items.filter(item => item.id !== action.payload)
-      };
+      }
+
     case CAMBIAR_ESTADO:
+      const newItems = state.items.map((item) => {
+        if (item === action.payload) {
+          return { ...item, state: true };
+        }
+        return item;
+      });
       return {
         ...state,
-        items: state.items.map(item => {
-          if (item.id === action.payload) {
-            return {
-              ...item,
-              state: true
-            };
-          }
-          return item;
-        })
+        items: newItems,
       };
+
+    case SELECT_ITEM:
+      return {
+        ...state,
+        selected: action.payload,
+      }
+
+    case ELIMINAR_ITEM:
+      const newState = state.items.filter((item) => item !== action.payload)
+      return {
+        ...state,
+        items: newState
+      }
     default:
       return state;
   }
 }
 
-export default reducer;
+export default TaskReducer;

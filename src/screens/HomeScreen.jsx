@@ -1,29 +1,30 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions } from 'react-native';
 import { BotonFlotante, Header, ItemList, ModalLista, ModalTask } from '../components';
 import { useNavigation } from '@react-navigation/native';
-import { AGREGAR_ITEM, ELIMINAR_ITEM, CAMBIAR_ESTADO } from '../store/actions/tareas.action';
-import { useDispatch } from 'react-redux';
+import { agregarItem, selectItem } from '../store/actions/tareas.action';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const HomeScreen = () => {
 
+  const task = useSelector((state)=> state.rootTask.items)
+
   const navigation = useNavigation();
-  const [items, setItems] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
   const [Task, setTask] = useState("");
   const [addModal, setAddModal] = useState(false);
 
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
 
   const onChangeTask = (text) => {
     setTask(text);
   };
 
   const addTask = () => {
-    setItems((oldArray) => [...oldArray, { id: Date.now(), name: Task, state: false }]);
     setTask("");
     setAddModal(!addModal);
+    dispatch(agregarItem({ id: Date.now(), name: Task, state: false }))
   };
 
   const closeAddTask = () => {
@@ -32,7 +33,7 @@ const HomeScreen = () => {
   }
 
   const openTask = (item) => {
-    setSelectedItem(item);
+    dispatch(selectItem(item))
     setModalVisible(true);
   };
 
@@ -41,29 +42,15 @@ const HomeScreen = () => {
     setSelectedItem({});
   };
 
-  const stateChange = (id) => {
-    setModalVisible(!modalVisible);
-    items.find(item => item.id === id).state = true;
-    setSelectedItem({});
-  }
-
-  const onDeleteTask = (id) => {
-    setModalVisible(!modalVisible);
-    setItems((oldArray) => oldArray.filter((item) => item.id !== id));
-    setSelectedItem({});
-  };
-
   return (
     <View style={styles.screen}>
        <Header/>
-       <ItemList items={items} openTask={openTask} />
+       <ItemList items={task} openTask={openTask} />
        <BotonFlotante setAddModal={setAddModal} />
        <ModalLista
             onCancelModal={onCancelModal}
-            onDeleteTask={onDeleteTask}
             modalVisible={modalVisible}
-            selectedItem={selectedItem}
-            stateChange={stateChange}
+            setModalVisible={setModalVisible}
           />
           <ModalTask
             addModal={addModal}
