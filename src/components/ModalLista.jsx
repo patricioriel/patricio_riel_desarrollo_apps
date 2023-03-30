@@ -3,8 +3,9 @@ import COLORS from '../constants/COLORS'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { cambiarEstado, eliminarItem } from '../store/actions/tareas.action'
+import { ItemHistory } from '../store/actions/historial.action'
 
-const ModalLista = ({onCancelModal, modalVisible, setModalVisible}) => {
+const ModalLista = ({modalVisible, setModalVisible}) => {
   
   const selected = useSelector((state)=> state.rootTask.selected)
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const ModalLista = ({onCancelModal, modalVisible, setModalVisible}) => {
 
         <View style={styles.buttonClose}>
           <Pressable
-            onPress={onCancelModal}
+            onPress={()=>setModalVisible(!modalVisible)}
           >
             <Text style={[styles.button, styles.close]}>X</Text>
           </Pressable>
@@ -40,6 +41,7 @@ const ModalLista = ({onCancelModal, modalVisible, setModalVisible}) => {
             style={[styles.button, styles.buttonReady, selected?.state && styles.disabledButton]}
             onPress={() => {
               dispatch(cambiarEstado(selected))
+              console.log(selected)
               setModalVisible(!modalVisible)
             }}
             disabled={selected?.state}
@@ -50,6 +52,7 @@ const ModalLista = ({onCancelModal, modalVisible, setModalVisible}) => {
             style={[styles.button, styles.buttonDelete]}
             onPress={() => {
               dispatch(eliminarItem(selected))
+              dispatch(ItemHistory(selected))
               setModalVisible(!modalVisible)
             }}
           >

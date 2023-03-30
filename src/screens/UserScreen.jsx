@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
-const UserScreen = ({navigation}) => {
+const UserScreen = () => {
   return (
     <View style={styles.screen}>
       <Image 

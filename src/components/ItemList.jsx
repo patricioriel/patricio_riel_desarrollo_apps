@@ -3,10 +3,20 @@ import COLORS from '../constants/COLORS'
 import React from 'react'
 
 const ItemList = ({ items, openTask }) => {
+    const sortedItems = items.sort((a, b) => {
+        if (a.state && !b.state) {
+            return 1;
+        } else if (!a.state && b.state) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
+
     return (
         <FlatList
             style={styles.flatList}
-            data={items}
+            data={sortedItems}
             renderItem={(itemData) => (
                 <Pressable
                     style={[
@@ -29,7 +39,7 @@ const ItemList = ({ items, openTask }) => {
             )}
             keyExtractor={(item) => item.id.toString()}
         />
-    )
+    );
 }
 
 export default ItemList

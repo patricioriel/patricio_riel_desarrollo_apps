@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, Dimensions } from 'react-native';
+import { StyleSheet, View} from 'react-native';
 import { BotonFlotante, Header, ItemList, ModalLista, ModalTask } from '../components';
 import { useNavigation } from '@react-navigation/native';
 import { agregarItem, selectItem } from '../store/actions/tareas.action';
@@ -37,18 +37,12 @@ const HomeScreen = () => {
     setModalVisible(true);
   };
 
-  const onCancelModal = () => {
-    setModalVisible(!modalVisible);
-    setSelectedItem({});
-  };
-
   return (
     <View style={styles.screen}>
        <Header/>
        <ItemList items={task} openTask={openTask} />
        <BotonFlotante setAddModal={setAddModal} />
        <ModalLista
-            onCancelModal={onCancelModal}
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
           />

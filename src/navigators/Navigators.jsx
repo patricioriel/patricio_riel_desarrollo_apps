@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Entypo } from '@expo/vector-icons';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import COLORS from '../constants/COLORS'
+import Historial from '../screens/Historial'
 
 const BottomTabs = createBottomTabNavigator()
 
@@ -16,7 +17,7 @@ const Navigators = () => {
         initialRouteName="Home"
         screenOptions={{
           headerShown: false,
-          tabBarShowLabel:false,
+          tabBarShowLabel: false,
           tabBarStyle: styles.tabBar
         }}>
         <BottomTabs.Screen
@@ -30,6 +31,19 @@ const Navigators = () => {
               </View>
             )
           }} />
+
+        <BottomTabs.Screen
+          name="Historial"
+          component={Historial}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <View style={styles.tabItemContainer}>
+                <Entypo name="back-in-time" size={28} color={focused ? COLORS.celeste : 'grey'} />
+                <Text style={[styles.tabItemText, { color: focused ? COLORS.celeste : 'grey' }]}>Historial</Text>
+              </View>
+            )
+          }} />
+
         <BottomTabs.Screen
           name="Mi perfil"
           component={UserScreen}
@@ -41,6 +55,7 @@ const Navigators = () => {
               </View>
             )
           }} />
+
       </BottomTabs.Navigator>
     </NavigationContainer>
   )
