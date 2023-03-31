@@ -21,7 +21,9 @@ export const ItemHistory =(item) => {
                 },
                 body: JSON.stringify({
                     date: new Date(),
-                    Tarea: item
+                    id: item.id,
+                    name: item.name,
+                    status: item.status,
                 }),
             });
 
