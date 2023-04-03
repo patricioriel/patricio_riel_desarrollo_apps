@@ -40,8 +40,7 @@ const ModalLista = ({modalVisible, setModalVisible}) => {
           <Pressable
             style={[styles.button, styles.buttonReady, selected?.state && styles.disabledButton]}
             onPress={() => {
-              dispatch(cambiarEstado(selected))
-             
+              dispatch(cambiarEstado(selected))            
               setModalVisible(!modalVisible)
             }}
             disabled={selected?.state}

@@ -1,14 +1,57 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrders, deleteOrder } from '../store/actions/getHistorial.action';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-const Historial = () => {
-  return (
-    <View>
-      <Text>Historial</Text>
-    </View>
-  )
+const OrdersScreen = () => {
+  const dispatch = useDispatch();
+  const orders = useSelector(state => state.rootOrders.list);
+  console.log("ordenes de FB" ,orders)
+
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+
+  const formatDay = (time) => {
+    const date= new Date(time)
+    return date.toLocaleDateString();
 }
 
-export default Historial
+const onHandleDeleteOrder = ({id})=>{
+  console.log('delete order', id)
+  dispatch(deleteOrder(id))
+}
 
-const styles = StyleSheet.create({})
+  return (
+    <FlatList
+      data={orders}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({ item }) => (
+        <View style={styles.container} key={item.id}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.date}>{formatDay(item.date)}</Text>
+          <TouchableOpacity onPress={()=> onHandleDeleteOrder(item.id)}>
+                <Ionicons name="md-trash" size={22} color={"red"} />
+            </TouchableOpacity>
+        </View>
+      )}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  name: {
+    marginRight: 8,
+  },
+  date: {
+    color: 'gray',
+  },
+});
+
+export default OrdersScreen;

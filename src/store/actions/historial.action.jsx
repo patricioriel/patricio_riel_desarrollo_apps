@@ -1,4 +1,4 @@
-import { API_URL } from '../../constants/Database';
+import {API_URL} from '../../constants/Database';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
@@ -12,8 +12,7 @@ export const addItem = (item) => {
 
 export const ItemHistory =(item) => {
     return async dispatch => {
-        try {
-            
+        try {           
             const response = await fetch(API_URL+'orders.json', {
                 method: 'POST',
                 headers: {
@@ -23,10 +22,9 @@ export const ItemHistory =(item) => {
                     date: new Date(),
                     id: item.id,
                     name: item.name,
-                    status: item.status,
+                    status: item.state,
                 }),
             });
-
             const result = await response.json();
             console.log(result);
             dispatch({
