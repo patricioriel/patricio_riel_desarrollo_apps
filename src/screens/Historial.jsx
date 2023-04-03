@@ -29,7 +29,7 @@ const onHandleDeleteOrder = ({id})=>{
       keyExtractor={item => item.id.toString()}
       renderItem={({ item }) => (
         <View style={styles.container} key={item.id}>
-          <Text style={styles.name}>{item.name}</Text>
+          <Text style={[styles.name, { color: item.status ? 'green' : 'red' }]}>{item.name} </Text>
           <Text style={styles.date}>{formatDay(item.date)}</Text>
           <TouchableOpacity onPress={()=> onHandleDeleteOrder(item.id)}>
                 <Ionicons name="md-trash" size={22} color={"red"} />
