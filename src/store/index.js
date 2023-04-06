@@ -5,7 +5,7 @@ import TaskReducer from './reducers/tareas.reducer';
 
 const rootReducer = combineReducers({
     rootTask: TaskReducer,
-    rootOrders: ordersReducer
+    rootOrders: ordersReducer,
 })
 
 export default createStore(rootReducer, applyMiddleware(thunk));

@@ -7,33 +7,36 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const OrdersScreen = () => {
   const dispatch = useDispatch();
   const orders = useSelector(state => state.rootOrders.list);
-  console.log("ordenes de FB" ,orders)
 
   useEffect(() => {
     dispatch(getOrders());
   }, []);
 
   const formatDay = (time) => {
-    const date= new Date(time)
-    return date.toLocaleDateString();
-}
+    const date = new Date(time);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+  }
 
-const onHandleDeleteOrder = ({id})=>{
-  console.log('delete order', id)
-  dispatch(deleteOrder(id))
-}
+  const onHandleDeleteOrder = (id) => {
+    dispatch(deleteOrder(id))
+  }
 
   return (
     <FlatList
       data={orders}
       keyExtractor={item => item.id.toString()}
       renderItem={({ item }) => (
-        <View style={styles.container} key={item.id}>
-          <Text style={[styles.name, { color: item.status ? 'green' : 'red' }]}>{item.name} </Text>
-          <Text style={styles.date}>{formatDay(item.date)}</Text>
-          <TouchableOpacity onPress={()=> onHandleDeleteOrder(item.id)}>
-                <Ionicons name="md-trash" size={22} color={"red"} />
-            </TouchableOpacity>
+        <View style={styles.container}>
+          <View style={styles.leftContainer}>
+            <Text style={[styles.name, { color: item.status ? 'green' : 'red' }]}>{item.name}</Text>
+            <Text style={styles.date}>{formatDay(item.date)}</Text>
+          </View>
+          <TouchableOpacity onPress={() => onHandleDeleteOrder(item.index)}>
+            <Ionicons name="md-trash" size={24} color={"red"} />
+          </TouchableOpacity>
         </View>
       )}
     />
@@ -45,12 +48,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    elevation: 5,
+    height: 70,
+  },
+  leftContainer: {
+    flex: 1,
+    marginRight: 16,
   },
   name: {
-    marginRight: 8,
+    fontFamily: "open-sans",
+    fontSize: 17,
+    color: 'black',
   },
   date: {
     color: 'gray',
+    marginTop: 4,
   },
 });
 
