@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -28,7 +28,7 @@ const UserScreen = () => {
         setUserImage(newPath);
       }
     } else {
-       Alert.alert('Permisos insuficientes')
+       Alert.alert('Permisos denegados', 'No se puede acceder a la cámara sin permisos');
     }
   };
 
@@ -69,6 +69,7 @@ const UserScreen = () => {
 };
 
 export default UserScreen;
+
 
 const styles = StyleSheet.create({
   screen: {
