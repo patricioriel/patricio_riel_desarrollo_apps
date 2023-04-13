@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: "space-between",
         alignItems: "center",
+       
     },
     input: {
         width: 200,

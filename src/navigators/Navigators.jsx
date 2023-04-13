@@ -4,7 +4,7 @@ import UserScreen from '../screens/UserScreen'
 import HomeScreen from '../screens/HomeScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Entypo } from '@expo/vector-icons';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View} from 'react-native';
 import COLORS from '../constants/COLORS'
 import Historial from '../screens/Historial'
 

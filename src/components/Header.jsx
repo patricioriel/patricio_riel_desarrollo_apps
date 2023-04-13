@@ -16,12 +16,26 @@ const styles = StyleSheet.create({
     addItemInputContainer: {
         flexDirection: "row",
         alignItems: "center",
+        paddingBottom: 5,
     },
     title: {
-        textAlign: 'center',
         width: '100%',
-        fontSize: 35,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: COLORS.celeste,
-        fontFamily: "open-sans-bold"
+        fontFamily: "open-sans-bold",
+        fontSize: 35,
+        color: 'white',
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowRadius: 3,
+        elevation: 5,
+        textAlign: 'center'
     },
 })
+

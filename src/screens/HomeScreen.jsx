@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, View} from 'react-native';
+import { StyleSheet, View, Image} from 'react-native';
 import { BotonFlotante, Header, ItemList, ModalLista, ModalTask } from '../components';
 import { useNavigation } from '@react-navigation/native';
 import { agregarItem, selectItem } from '../store/actions/tareas.action';
@@ -39,6 +39,10 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.screen}>
+      <Image
+        style={styles.backgroundImage}
+        source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ29Afvcimv04bBofSX6zvWj7-u-8e06Qsj062u94Wv10GsJh66dkXKKzFWBeOAMyfh1DQ&usqp=CAU' }}
+      />
        <Header/>
        <ItemList items={task} openTask={openTask} />
        <BotonFlotante setAddModal={setAddModal} />
@@ -65,5 +69,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:"#E6EDF5"
-    }
+    },
+    backgroundImage: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      opacity:0.2
+    },
 })

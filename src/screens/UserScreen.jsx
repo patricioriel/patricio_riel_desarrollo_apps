@@ -1,12 +1,36 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { createTable, getLastUsername, insertUsername } from '../db/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const UserScreen = () => {
   const [userImage, setUserImage] = useState(null);
   const [username, setUsername] = useState('');
   const [editMode, setEditMode] = useState(true);
+
+  useEffect(() => {
+    createTable()
+      .then(() => {
+        return getLastUsername();
+      })
+      .then((lastUsername) => {
+        setUsername(lastUsername);
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+  
+    AsyncStorage.getItem('userImage')
+      .then((userImagePath) => {
+        setUserImage(userImagePath);
+      })
+      .catch((error) => {
+        console.log('Error loading user image', error);
+      });
+  }, []);
 
   const handleImageSelection = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -17,28 +41,35 @@ const UserScreen = () => {
         quality: 0.8,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
-
-      if (result.uri) {
-        const fileName = result.uri.split('/').pop();
+  
+      if (result.assets[0].uri) {
+        const fileName = result.assets[0].uri.split('/').pop();
         const newPath = FileSystem.documentDirectory + fileName;
-        await FileSystem.copyAsync({
-          from: result.uri,
+        await FileSystem.moveAsync({
+          from: result.assets[0].uri,
           to: newPath,
         });
         setUserImage(newPath);
+        await AsyncStorage.setItem('userImage', newPath);
       }
     } else {
-       Alert.alert('Permisos denegados', 'No se puede acceder a la cámara sin permisos');
+      Alert.alert('Permisos denegados', 'No se puede acceder a la cámara sin permisos');
     }
   };
 
   const handleUsernameSubmit = () => {
-    setEditMode(false);
-  }
+    insertUsername(username)
+      .then(() => {
+        setEditMode(false);
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+  };
 
   const handleUsernameEdit = () => {
     setEditMode(true);
-  }
+  };
 
   return (
     <View style={styles.screen}>
@@ -71,6 +102,7 @@ const UserScreen = () => {
 export default UserScreen;
 
 
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -84,10 +116,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    fontFamily: "open-sans",
+    fontFamily: "open-sans-bold",
     textAlign: 'center',
     fontSize: 25,
-    color: 'blue',
+    color: 'white',
     backgroundColor:"grey",
     borderRadius: 75,
     padding:20,
