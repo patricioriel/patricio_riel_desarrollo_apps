@@ -2,9 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } fro
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { createTable, getLastUsername, insertUsername } from '../db/index';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {getLastUsername, insertUsername } from '../db';
 
 const UserScreen = () => {
   const [userImage, setUserImage] = useState(null);
@@ -12,25 +10,15 @@ const UserScreen = () => {
   const [editMode, setEditMode] = useState(true);
 
   useEffect(() => {
-    createTable()
-      .then(() => {
-        return getLastUsername();
-      })
+    getLastUsername()
       .then((lastUsername) => {
         setUsername(lastUsername);
       })
       .catch((error) => {
         console.log('Error', error);
       });
-  
-    AsyncStorage.getItem('userImage')
-      .then((userImagePath) => {
-        setUserImage(userImagePath);
-      })
-      .catch((error) => {
-        console.log('Error loading user image', error);
-      });
   }, []);
+  
 
   const handleImageSelection = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -41,16 +29,15 @@ const UserScreen = () => {
         quality: 0.8,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
-  
+
       if (result.assets[0].uri) {
         const fileName = result.assets[0].uri.split('/').pop();
         const newPath = FileSystem.documentDirectory + fileName;
-        await FileSystem.moveAsync({
+        await FileSystem.copyAsync({
           from: result.assets[0].uri,
           to: newPath,
         });
         setUserImage(newPath);
-        await AsyncStorage.setItem('userImage', newPath);
       }
     } else {
       Alert.alert('Permisos denegados', 'No se puede acceder a la cámara sin permisos');

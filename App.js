@@ -7,6 +7,9 @@ import { Isologo} from "./src/components"
 import Navigators from "./src/navigators/Navigators";
 import { Provider} from "react-redux";
 import store from "./src/store";
+import { init } from "./src/db";
+
+
 
 SplashScreen.preventAutoHideAsync()
 
@@ -28,6 +31,15 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   };
+
+  init().then(
+    () => {
+      console.log('Initialized database');
+    }
+  ).catch(err => {
+    console.log('Initializing db failed.');
+    console.log(err);
+  });
 
   return (
     <Provider store= {store} >

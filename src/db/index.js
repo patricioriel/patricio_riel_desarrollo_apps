@@ -2,7 +2,7 @@ import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('mydb.db');
 
-const createTable = () => {
+const init = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -62,4 +62,4 @@ const insertUsername = (username) => {
   });
 };
 
-export { createTable, getLastUsername, insertUsername };
+export { init, getLastUsername, insertUsername };
