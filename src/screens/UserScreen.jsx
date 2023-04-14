@@ -2,23 +2,25 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } fro
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import {getLastUsername, insertUsername } from '../db';
+import { getLastUsername, insertUsername } from '../db';
 
 const UserScreen = () => {
   const [userImage, setUserImage] = useState(null);
   const [username, setUsername] = useState('');
   const [editMode, setEditMode] = useState(true);
 
-  useEffect(() => {
-    getLastUsername()
-      .then((lastUsername) => {
+useEffect(() => {
+  getLastUsername()
+    .then((lastUsername) => {
+      if (lastUsername.trim().length > 0) {
         setUsername(lastUsername);
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
-  }, []);
-  
+        setEditMode(false);
+      }
+    })
+    .catch((error) => {
+      console.log('Error', error);
+    });
+}, []);
 
   const handleImageSelection = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -68,15 +70,22 @@ const UserScreen = () => {
         )}
       </TouchableOpacity>
       {editMode ? (
-        <TextInput
-          style={styles.input}
-          onChangeText={setUsername}
-          value={username}
-          placeholder="Ingrese su nombre de usuario"
-          placeholderTextColor="grey"
-          autoFocus={true}
-          onSubmitEditing={handleUsernameSubmit}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            onChangeText={setUsername}
+            value={username}
+            placeholder="Ingrese su nombre de usuario"
+            placeholderTextColor="grey"
+            autoFocus={false}
+            onSubmitEditing={handleUsernameSubmit}
+          />
+          {username.trim().length > 0 && (
+            <TouchableOpacity style={styles.saveButton} onPress={handleUsernameSubmit}>
+              <Text style={styles.saveButtonText}>Guardar cambios</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       ) : (
         <TouchableOpacity onPress={handleUsernameEdit}>
           <Text style={styles.username}>{username}</Text>
@@ -87,8 +96,6 @@ const UserScreen = () => {
 };
 
 export default UserScreen;
-
-
 
 const styles = StyleSheet.create({
   screen: {
@@ -107,9 +114,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 25,
     color: 'white',
-    backgroundColor:"grey",
+    backgroundColor: "grey",
     borderRadius: 75,
-    padding:20,
+    padding: 20,
   },
   input: {
     borderWidth: 1,
@@ -128,6 +135,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 10,
     marginTop: 50,
+    textAlign: 'center',
+  },
+  saveButton: {
+    backgroundColor: '#4285F4',
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 10,
+  },
+  saveButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });
