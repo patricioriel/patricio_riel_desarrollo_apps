@@ -2,25 +2,26 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput, Alert } fro
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { getLastUsername, insertUsername } from '../db';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserScreen = () => {
   const [userImage, setUserImage] = useState(null);
   const [username, setUsername] = useState('');
   const [editMode, setEditMode] = useState(true);
 
-useEffect(() => {
-  getLastUsername()
-    .then((lastUsername) => {
+  useEffect(() => {
+    AsyncStorage.getItem('userImage').then((image) => {
+      setUserImage(image);
+    });
+    AsyncStorage.getItem('username').then((lastUsername) => {
       if (lastUsername.trim().length > 0) {
         setUsername(lastUsername);
         setEditMode(false);
       }
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.log('Error', error);
     });
-}, []);
+  }, []);
 
   const handleImageSelection = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -31,7 +32,6 @@ useEffect(() => {
         quality: 0.8,
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
       });
-
       if (result.assets[0].uri) {
         const fileName = result.assets[0].uri.split('/').pop();
         const newPath = FileSystem.documentDirectory + fileName;
@@ -39,6 +39,7 @@ useEffect(() => {
           from: result.assets[0].uri,
           to: newPath,
         });
+        await AsyncStorage.setItem('userImage', newPath);
         setUserImage(newPath);
       }
     } else {
@@ -46,20 +47,14 @@ useEffect(() => {
     }
   };
 
-  const handleUsernameSubmit = () => {
+  const handleUsernameSubmit = async () => {
     if (!username.match(/[a-zA-Z0-9]/)) {
       Alert.alert('Error', 'Ingrese un nombre válido');
       return;
     }
-    insertUsername(username)
-      .then(() => {
-        setEditMode(false);
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
+    await AsyncStorage.setItem('username', username);
+    setEditMode(false);
   };
-  
 
   const handleUsernameEdit = () => {
     setEditMode(true);
@@ -101,6 +96,7 @@ useEffect(() => {
 };
 
 export default UserScreen;
+
 
 const styles = StyleSheet.create({
   screen: {
