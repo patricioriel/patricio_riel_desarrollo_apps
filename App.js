@@ -5,7 +5,8 @@ import { useFonts } from 'expo-font';
 import { Isologo} from "./src/components"
 import Navigators from "./src/navigators/Navigators";
 import { Provider} from "react-redux";
-import store from "./src/store";
+import {store, storePersisted} from "./src/store";
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 SplashScreen.preventAutoHideAsync()
@@ -31,11 +32,13 @@ export default function App() {
 
   return (
     <Provider store= {store} >
+      <PersistGate loading={null} persistor={storePersisted}>
     <SafeAreaView style={styles.screen} onLayout={onLayoutRootView}>
       {loading ? (<Isologo />) : (
           <Navigators/>
       )}
     </SafeAreaView>
+    </PersistGate>
      </Provider>
   )
 };
