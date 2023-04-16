@@ -47,6 +47,10 @@ useEffect(() => {
   };
 
   const handleUsernameSubmit = () => {
+    if (!username.match(/[a-zA-Z0-9]/)) {
+      Alert.alert('Error', 'Ingrese un nombre válido');
+      return;
+    }
     insertUsername(username)
       .then(() => {
         setEditMode(false);
@@ -55,6 +59,7 @@ useEffect(() => {
         console.log('Error', error);
       });
   };
+  
 
   const handleUsernameEdit = () => {
     setEditMode(true);
